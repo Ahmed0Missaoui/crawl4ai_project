@@ -1,46 +1,28 @@
-1. sequential_crawl.py
-Ce script implémente un processus de crawling séquentiel en utilisant une session partagée, ce qui permet de conserver les données de session entre plusieurs requêtes. Voici les étapes principales exécutées dans ce script :
+Présentation des scripts de crawling
 
-Récupération des URLs à crawler depuis un fichier Sitemap XML.
+    sequential_crawl.py
+    Ce script met en place un crawling séquentiel avec une session partagée, permettant de garder les cookies et autres données entre les requêtes. Il suit un déroulement précis :
+    🔹 Lecture des URLs depuis un fichier Sitemap au format XML
+    🔹 Lancement d’un navigateur headless pour optimiser les ressources
+    🔹 Traitement des URLs une par une, avec génération d’un fichier Markdown par page visitée
+    🔹 Gestion des échecs lors de la navigation (journalisation des erreurs)
+    🔹 Fermeture propre du navigateur une fois le processus terminé
 
-Démarrage d'un navigateur configuré pour fonctionner en mode "headless" (sans interface graphique), afin de maximiser les performances.
+    ✅ Idéal pour les cas où un suivi linéaire et le maintien d’une session sont essentiels.
 
-Exploration des URLs une par une :
+    parallel_craw.py
+    Ce script permet un crawling en parallèle pour améliorer considérablement la vitesse d’exécution. Il suit une logique asynchrone :
+    🔹 Extraction des URLs depuis un fichier Sitemap XML
+    🔹 Initialisation d’un navigateur headless comme dans le script séquentiel
+    🔹 Exécution concurrente de tâches de crawling via asyncio
+    🔹 Pour chaque URL, création d’un fichier Markdown documentant son contenu
+    🔹 Traitement indépendant des erreurs pour chaque tâche
+    🔹 Le navigateur est automatiquement fermé grâce à l’instruction async with
 
-Génération de fichiers Markdown pour documenter le contenu de chaque URL.
+    ✅ Recommandé pour le traitement massif et rapide de nombreuses pages.
 
-Gestion des erreurs pour identifier les éventuelles URLs ayant échoué lors du crawl.
-
-Fermeture propre du navigateur après l'exécution.
-
-À utiliser si vous souhaitez un contrôle minutieux des séquences d'exploration ou si vos besoins nécessitent une session partagée.
-
-2. parallel_craw.py
-Ce script effectue un crawling parallèle pour maximiser la vitesse en explorant plusieurs URLs simultanément. Voici ce que fait ce script :
-
-Récupération des URLs à crawler depuis un fichier Sitemap XML.
-
-Démarrage d'un navigateur configuré pour fonctionner en mode "headless", offrant les mêmes optimisations que dans le script séquentiel.
-
-Lancement de tâches asynchrones en parallèle :
-
-Exploration de plusieurs URLs simultanément pour améliorer les performances.
-
-Génération de fichiers Markdown pour documenter le contenu de chaque URL.
-
-Gestion indépendante des erreurs pour chaque tâche.
-
-Le navigateur est automatiquement fermé à la fin de l'exécution grâce au mot-clé async with.
-
-Approprié pour les projets nécessitant un traitement rapide d'un grand nombre d'URLs.
-
-3. single_craw.py
-Ce script est une implémentation simple et minimale pour effectuer un crawling sur une unique URL. Voici ses principales caractéristiques :
-
-Utilisation de l'objet AsyncWebCrawler pour explorer une seule page web.
-
-Récupération du contenu de la page et conversion en Markdown.
-
-Affichage du contenu Markdown dans la console pour un usage rapide.
-
-Ce script est idéal pour tester l’outil crawl4ai sur une URL donnée ou pour des besoins ponctuels.
+    single_craw.py
+    Version simplifiée et minimale, ce script est conçu pour le crawling d’une seule URL.
+    🔹 Configuration légère
+    🔹 Parfait pour les tests, les démos ou les cas isolés
+    🔹 Génére également un fichier Markdown résumant le contenu de la page
